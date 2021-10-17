@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import GoogleLogin from "react-google-login";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import authStore from './store/auth';
+import {auth, tags} from './api';
+import {useGoogleAuthentication} from './api/authHooks';
+import {REACT_APP_GOOGLE_AUTH_CLIENT_ID} from "./api/authConfig";
+import {observer} from "mobx-react-lite";
+
+
+const App = observer(() => {
+    useEffect(() => {
+        console.log(localStorage.getItem('token'));
+    })
+
+    const [responseTags, setResponseTags] = useState([]);
+    const [responseUsers, setResponseUsers] = useState([]);
+    const [profile, setProfile] = useState({});
+
+    const getProfile = async () => {
+        const p = await auth.getProfile();
+        console.log(p);
+        setProfile(p);
+    }
+
+    const {handleGoogleSuccess} = useGoogleAuthentication();
+    const handleGoogle = async (response) => {
+        const token = await handleGoogleSuccess(response);
+        authStore.setToken(token);
+    }
+
+    const getTags = async () => {
+        const a = await tags.getTags();
+        console.log(a);
+    }
+
+    return (
+        <div>
+            <GoogleLogin
+                clientId={REACT_APP_GOOGLE_AUTH_CLIENT_ID}
+                buttonText={'Log In'}
+                onSuccess={handleGoogle}
+            />
+
+            <div>
+                <button onClick={getProfile}>profile</button>
+            </div>
+
+            <div>
+                <button onClick={getTags}>tags</button>
+            </div>
+
+            <div>
+                <button onClick={() => localStorage.removeItem('token')}>remove token</button>
+            </div>
+        </div>
+    );
+})
 
 export default App;
