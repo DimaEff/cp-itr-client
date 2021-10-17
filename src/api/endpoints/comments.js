@@ -26,4 +26,4 @@ export class Comments extends Api{
     }
 }
 
-export default new Comments('comments');
+export default new Comments('tasks/comments');

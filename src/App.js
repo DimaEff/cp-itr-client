@@ -9,10 +9,6 @@ import {observer} from "mobx-react-lite";
 
 
 const App = observer(() => {
-    useEffect(() => {
-        console.log(localStorage.getItem('token'));
-    })
-
     const [responseTags, setResponseTags] = useState([]);
     const [responseUsers, setResponseUsers] = useState([]);
     const [profile, setProfile] = useState({});

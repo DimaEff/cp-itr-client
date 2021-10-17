@@ -7,8 +7,8 @@ export class Roles extends Api {
         return res.data;
     }
 
-    async getRoleByValue(value) {
-        const res = await instance.get(this.getAdditionalUrl(`/${value}`));
+    async getAll() {
+        const res = await instance.get(this.getAdditionalUrl());
         return res.data;
     }
 }

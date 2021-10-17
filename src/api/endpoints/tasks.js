@@ -22,6 +22,15 @@ export class Tasks extends Api {
         return res.data;
     }
 
+    async addTaskRating(rating, task_id, user_id) {
+        const res = await instance.post(this.getAdditionalUrl('rating', {
+            rating,
+            task_id,
+            user_id,
+        }));
+        return res.data;
+    }
+
     async deleteTask(id) {
         const res = await instance.delete(this.getAdditionalUrl(`/${id}`));
         return res.data;
