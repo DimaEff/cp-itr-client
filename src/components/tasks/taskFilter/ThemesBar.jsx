@@ -3,7 +3,7 @@ import {observer} from "mobx-react-lite";
 import {Box} from "@mui/material";
 
 import {themes} from '../../../store';
-import ThemesStack from "../../common/theme/ThemesStack";
+import {ThemesStack} from "../../common/theme";
 
 
 const ThemesBar = observer(({setTheme, selectedTheme}) => {

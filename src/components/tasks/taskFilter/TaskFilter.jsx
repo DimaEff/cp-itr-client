@@ -1,30 +1,24 @@
-import React, {useState} from 'react';
-import {Button, Box} from "@mui/material";
-import {useTranslation} from 'react-i18next';
+import React, {useEffect, useState} from 'react';
+import {Box} from "@mui/material";
 
 import '../../../utils/i18next';
 import TagsBar from "./TagsBar";
 import ThemesBar from "./ThemesBar";
-import {fetching, tasks} from '../../../store';
+import {tasks} from '../../../store';
 
 
 const TaskFilter = () => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedTheme, setSelectedTheme] = useState('');
 
-    const {t} = useTranslation();
-
-    const handleFilterTasks = async () => {
+    useEffect(async () => {
         await tasks.fetchTasks(null, null, selectedTheme, null, selectedTags);
-    }
+    }, [selectedTags, selectedTheme]);
 
     return (
         <Box>
             <TagsBar setTags={setSelectedTags} selectedTags={selectedTags}/>
             <ThemesBar setTheme={setSelectedTheme} selectedTheme={selectedTheme}/>
-            <Button sx={{margin: '10px 30px'}} variant={'contained'} onClick={fetching.fetchingWrapper(handleFilterTasks())}>
-                {t('tasks.filter')}
-            </Button>
         </Box>
     );
 };
