@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 export const instance = axios.create({
-    baseURL: `http://localhost:7000/`,
+    baseURL: `https://cp-itr.herokuapp.com`,
 });
 
 export const setInstanceToken = () => {
