@@ -1,0 +1,17 @@
+{
+  "header": {
+    "loginTitle": "Войти с помощью",
+    "language": "Язык"
+  },
+  "tasks": {
+    "card": {
+      "open": "Открыть"
+    },
+    "modal": {
+      "errorRequire": "Это обязательное поле",
+      "solutionLabel": "Твое решение",
+      "checkSolution": "Проверить"
+    },
+    "filter": "фильтровать"
+  }
+}

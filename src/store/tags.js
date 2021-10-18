@@ -4,13 +4,16 @@ import {tags} from '../api';
 
 
 class Tags {
-    tags = null;
+    tags = [];
 
     constructor() {
         makeAutoObservable(this);
     }
 
     async fetchTags() {
-        this.tags = tags.getAllTags();
+        const res = await tags.getAllTags();
+        this.tags = res;
     }
 }
+
+export default new Tags();

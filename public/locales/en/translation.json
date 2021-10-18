@@ -1,0 +1,17 @@
+{
+  "header": {
+    "loginTitle": "Sign In with",
+    "language": "Language"
+  },
+  "tasks": {
+    "card": {
+      "open": "Open"
+    },
+    "modal": {
+      "errorRequire": "This is a required field",
+      "solutionLabel": "Your solution",
+      "checkSolution": "Check"
+    },
+    "filter": "filter"
+  }
+}

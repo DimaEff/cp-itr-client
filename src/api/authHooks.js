@@ -13,3 +13,15 @@ export const useGoogleAuthentication = () => {
 
     return {handleGoogleSuccess};
 }
+
+export const useVkAuthentication = () => {
+
+    const handleVkSuccess = async (token) => {
+        if (!token) return false;
+
+        const res = await auth.vkAuth(token);
+        return res;
+    }
+
+    return {handleVkSuccess};
+}

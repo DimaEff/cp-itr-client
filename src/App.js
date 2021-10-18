@@ -1,54 +1,31 @@
-import React, {useEffect, useState} from 'react';
-import GoogleLogin from "react-google-login";
-
-import authStore from './store/auth';
-import {auth, tags} from './api';
-import {useGoogleAuthentication} from './api/authHooks';
-import {REACT_APP_GOOGLE_AUTH_CLIENT_ID} from "./api/authConfig";
+import React, {Suspense, useEffect} from 'react';
 import {observer} from "mobx-react-lite";
+
+import {auth, fetching} from './store';
+import {Header} from "./components/common/header";
+import {Tasks} from "./components/tasks";
+import {Container} from "@mui/material";
+import Loader from "./components/common/loader/Loader.jsx";
 
 
 const App = observer(() => {
-    const [responseTags, setResponseTags] = useState([]);
-    const [responseUsers, setResponseUsers] = useState([]);
-    const [profile, setProfile] = useState({});
-
-    const getProfile = async () => {
-        const p = await auth.getProfile();
-        console.log(p);
-        setProfile(p);
-    }
-
-    const {handleGoogleSuccess} = useGoogleAuthentication();
-    const handleGoogle = async (response) => {
-        const token = await handleGoogleSuccess(response);
-        authStore.setToken(token);
-    }
-
-    const getTags = async () => {
-        const a = await tags.getTags();
-        console.log(a);
-    }
+    useEffect(async () => {
+        const token = localStorage.getItem('token');
+        console.log(token)
+        if (token) {
+            await fetching.fetchingWrapper(() => auth.login(token))();
+        }
+    }, []);
 
     return (
         <div>
-            <GoogleLogin
-                clientId={REACT_APP_GOOGLE_AUTH_CLIENT_ID}
-                buttonText={'Log In'}
-                onSuccess={handleGoogle}
-            />
-
-            <div>
-                <button onClick={getProfile}>profile</button>
-            </div>
-
-            <div>
-                <button onClick={getTags}>tags</button>
-            </div>
-
-            <div>
-                <button onClick={() => localStorage.removeItem('token')}>remove token</button>
-            </div>
+            <Suspense fallback={'...'}>
+                <Loader />
+                <Header/>
+                <Container maxWidth={'lg'}>
+                    <Tasks />
+                </Container>
+            </Suspense>
         </div>
     );
 })

@@ -4,15 +4,17 @@ import {tasks} from '../api';
 
 
 class Tasks {
-    tasks = null;
+    count = 0;
+    tasks = [];
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {}, {deep: true});
     }
 
     async fetchTasks(page, limit, theme, user_id, tags) {
-        const tasks = await tasks.getSomeTasks(page, limit, theme, user_id, tags);
-        this.tasks = tasks;
+        const res = await tasks.getSomeTasks(page, limit, theme, user_id, tags);
+        this.tasks = res.rows;
+        this.count = res.count;
     }
 
     async createUpdateTask(images, task_id, task, solutions, tags) {
@@ -31,3 +33,5 @@ class Tasks {
         await tasks.deleteTask(id);
     }
 }
+
+export default new Tasks();

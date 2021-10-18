@@ -7,6 +7,11 @@ class Auth extends Api{
         return response.data;
     }
 
+    async vkAuth(token) {
+        const response = await instance.post(this.getAdditionalUrl('/vk'), {token});
+        return response.data;
+    }
+
     async getProfile() {
         const res = await instance.get(this.getAdditionalUrl('/profile'));
         return res.data;

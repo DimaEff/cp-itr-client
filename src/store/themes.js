@@ -11,7 +11,8 @@ class Themes {
     }
 
     async fetchThemes() {
-        this.themes = themes.getAllThemes();
+        const res = await themes.getAllThemes();
+        this.themes = res;
     }
 
     async createTheme(title) {

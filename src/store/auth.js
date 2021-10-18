@@ -1,19 +1,22 @@
 import {makeAutoObservable} from 'mobx';
 
 import {auth} from '../api';
-import {setInstanceToken} from '../api/instance';
+import {setInstanceToken, removeInstanceToken} from '../api/instance';
 
 
 class Auth {
     token = '';
     profile = {};
+    get isAuth() {
+        return !!Object.keys(this.profile).length;
+    }
 
     constructor() {
         makeAutoObservable(this, {}, {deep: true});
     }
 
-    get isAuth() {
-        return !!Object.keys(this.profile).length;
+    async fetchProfile() {
+        this.profile = await auth.getProfile();
     }
 
     setToken(token) {
@@ -23,13 +26,19 @@ class Auth {
     }
 
     removeToken() {
-        this.token = null;
+        this.token = '';
         localStorage.removeItem('token');
-        setInstanceToken();
+        removeInstanceToken();
     }
 
-    async fetchProfile() {
-        this.profile = await auth.getProfile();
+    async login(token) {
+        this.setToken(token);
+        await this.fetchProfile();
+    }
+
+    signOut = () => {
+        this.profile = {};
+        this.removeToken();
     }
 }
 
